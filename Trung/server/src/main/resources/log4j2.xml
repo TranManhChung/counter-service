@@ -19,10 +19,10 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="co.overlead.main" level="trace" additivity="true">
-            <appender-ref ref="fileLogger" level="trace" />
+        <Logger name="co.overlead.main" level="warn" additivity="true">
+            <appender-ref ref="fileLogger" level="warn" />
         </Logger>
-        <Root level="trace" additivity="false">
+        <Root level="warn" additivity="false">
             <appender-ref ref="console" />
         </Root>
     </Loggers>

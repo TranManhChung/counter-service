@@ -32,16 +32,13 @@ class SendThread implements Runnable {
     public void run() {
         while(true){
             if( queue.isEmpty()){
-                try {
-                    Thread.sleep(100,100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                    continue;
             }
-            QueueReq.RequestType req=queue.peek();
-            System.out.println(req.getType());
+            QueueReq.RequestType req=queue.remove();
+            if (req==null) continue;
             switch (req.getType()){
                 case "GET":
+
                     if (getCacheBalance().containsKey(name)){//exist in cache
                         req.getRes().onNext(Counterservice.BalanceRes.newBuilder().setBalance(Long.parseLong(getCacheBalance().get(name).toString())).build());
                         req.getRes().onCompleted();
@@ -60,7 +57,6 @@ class SendThread implements Runnable {
                     makeCache(req,req.getValue());
                     break;
                 case "INCR":
-                    System.out.println(getCacheBalance().containsKey(name));
                     if (getCacheBalance().containsKey(name)){//in cache
                         Long value=Long.parseLong(getCacheBalance().get(name).toString())+req.getValue();//DANGER
                         makeCache(req,value);
@@ -76,6 +72,7 @@ class SendThread implements Runnable {
                     }
                     break;
                 case "DECR":
+
                     if (getCacheBalance().containsKey(name)){
                         Long value=Long.parseLong(getCacheBalance().get(name).toString())- req.getValue();
                         makeCache(req,req.getValue());

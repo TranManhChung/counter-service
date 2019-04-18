@@ -12,12 +12,11 @@ import java.util.concurrent.Executors;
 
 public class QueueReq {
 
-    private static ExecutorService executor = Executors.newFixedThreadPool(1000);//creating a pool of 5 threads
+    private static ExecutorService executor = Executors.newFixedThreadPool(20);//creating a pool of 5 threads
     public QueueReq() {
 
     }
-    private Runnable worker;
-    HashMap<String,Queue<RequestType>> listReq=new HashMap<>();;
+    HashMap<String,Queue<RequestType>> listReq=new HashMap<>();
 
     public boolean isExistKey(String userId){
         return listReq.containsKey(userId);
@@ -28,7 +27,7 @@ public class QueueReq {
         } else {
             listReq.put(userId,new LinkedList<>());
             listReq.get(userId).add(new RequestType(type, value,res));
-             worker= new SendThread(userId,listReq.get(userId));
+            Runnable worker= new SendThread(userId,listReq.get(userId));
             executor.execute(worker);
         }
     }

@@ -90,9 +90,9 @@ public class CounterSeviceServer {
 
         @Override
         public void getBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-            String userID=req.getUserId();
 
-            queueReq.addKey(userID,0L,"GET",responseObserver);
+
+            queueReq.addKey(req.getUserId(),0L,"GET",responseObserver);
 
         }
 
@@ -100,26 +100,18 @@ public class CounterSeviceServer {
         @Override
         public void increaseBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
 
-            String userID=req.getUserId();
-            Long balance=req.getBalance();
-            queueReq.addKey(userID,balance,"INCR",responseObserver);
+            queueReq.addKey(req.getUserId(),req.getBalance(),"INCR",responseObserver);
 
         }
 
         @Override
         public void decreaseBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-
-            String userID=req.getUserId();
-            Long balance=req.getBalance();
-            queueReq.addKey(userID,balance,"DECR",responseObserver);
-
+            queueReq.addKey(req.getUserId(),req.getBalance(),"DECR",responseObserver);
         }
 
         @Override
         public void setBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-            String userID=req.getUserId();
-            Long balance=req.getBalance();
-            queueReq.addKey(userID,balance,"SET",responseObserver);
+            queueReq.addKey(req.getUserId(),req.getBalance(),"SET",responseObserver);
 
         }
     }
