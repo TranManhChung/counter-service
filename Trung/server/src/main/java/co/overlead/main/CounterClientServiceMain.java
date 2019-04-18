@@ -100,7 +100,7 @@ public class CounterClientServiceMain {
                 user = args[0]; /* Use the arg as the name to greet if provided */
             }
 
-            //client.getBalance(user);
+           // client.getBalance(user);
             // client.setBalance(user,100L);
             client.increaseBalance(user,500L);
             // client.decreaseBalance(user,200L);

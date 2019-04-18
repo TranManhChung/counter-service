@@ -10,12 +10,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CounterSeviceServer {
     private static final Logger logger = LogManager.getLogger(CounterSeviceServer.class.getName());
-
+    private static HashMap<String,Long> cacheBalance=new HashMap<>();
+    private static QueueReq queueReq=new QueueReq();
+    public static HashMap getCacheBalance(){
+        return cacheBalance;
+    }
     private Server server;
-
     private void start() throws IOException {
         /* The port on which the server should run */
 
@@ -68,80 +74,53 @@ public class CounterSeviceServer {
         final CounterSeviceServer server = new CounterSeviceServer();
         server.start();
         server.blockUntilShutdown(); //prevent application shutdown
+
+//        for (int i = 0; i < 10; i++) {
+//            Runnable worker = new SendThread("" + i);
+//            executor.execute(worker);//calling execute method of ExecutorService
+//        }
+
+        //executor.shutdown();
+        //while (!executor.isTerminated()) {   }
+
+        System.out.println("Finished all threads");
     }
 
     static class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBase {
 
-
         @Override
         public void getBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-            Counterservice.BalanceRes reply;
-            if (IRedis.USER_SYNC_COMMAND.get(req.getUserId())==null){//NOT EXIST USERID
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(0).build();
-            } else{
-                Long value=Long.parseLong(IRedis.USER_SYNC_COMMAND.get(req.getUserId()).toString());
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(value).build();
+            String userID=req.getUserId();
 
-            }
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
+            queueReq.addKey(userID,0L,"GET",responseObserver);
 
         }
 
 
         @Override
         public void increaseBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-            Counterservice.BalanceRes reply;
-            if (IRedis.USER_SYNC_COMMAND.get(req.getUserId())==null){
-                Long value=req.getBalance();
-                IRedis.USER_SYNC_COMMAND.set(req.getUserId(),value.toString());
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
-            } else{
-                Long value= req.getBalance();
-                IRedis.USER_SYNC_COMMAND.incrby(req.getUserId(),value);
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(value).build();
-            }
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
+
+            String userID=req.getUserId();
+            Long balance=req.getBalance();
+            queueReq.addKey(userID,balance,"INCR",responseObserver);
+
         }
 
         @Override
         public void decreaseBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-            Counterservice.BalanceRes reply;
-            if (IRedis.USER_SYNC_COMMAND.get(req.getUserId())==null){
-                Long value=-req.getBalance();
-                IRedis.USER_SYNC_COMMAND.set(req.getUserId(),value.toString());
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
 
-            } else{
-                Long value=req.getBalance();
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(value).build();
-                IRedis.USER_SYNC_COMMAND.decrby(req.getUserId(),value);
+            String userID=req.getUserId();
+            Long balance=req.getBalance();
+            queueReq.addKey(userID,balance,"DECR",responseObserver);
 
-            }
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
         }
 
         @Override
         public void setBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-            Counterservice.BalanceRes reply;
-            if (IRedis.USER_SYNC_COMMAND.get(req.getUserId())==null){
-                Long val=req.getBalance();
-                IRedis.USER_SYNC_COMMAND.set(req.getUserId(),val.toString());
+            String userID=req.getUserId();
+            Long balance=req.getBalance();
+            queueReq.addKey(userID,balance,"SET",responseObserver);
 
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
-
-
-            } else{
-                Long newVal=req.getBalance();
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(newVal).build();
-                IRedis.USER_SYNC_COMMAND.set(req.getUserId(),newVal.toString());
-
-            }
-
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
         }
     }
 }
