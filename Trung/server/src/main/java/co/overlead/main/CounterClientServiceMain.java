@@ -76,11 +76,15 @@ public class CounterClientServiceMain {
         logger.info("Result: " + response.getBalance());
     }
     public void increaseBalance(String userId,Long value) {
-        logger.info("Creating user: " + userId + " ...");
+        logger.info("Creating user in incr: " + userId + " ...");
         Counterservice.UserReq request = Counterservice.UserReq.newBuilder().setUserId(userId).setBalance(value).build();
         Counterservice.BalanceRes response;
         try {
+            logger.info("going to incr: " + userId + " ...");
+
             response = blockingStub.increaseBalance(request);
+            logger.info("nolock at incr: " + userId + " ...");
+
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
             return;
@@ -100,13 +104,13 @@ public class CounterClientServiceMain {
                 user = args[0]; /* Use the arg as the name to greet if provided */
             }
 
-           // client.getBalance(user);
-            // client.setBalance(user,100L);
+           client.getBalance(user);
+            client.setBalance(user,100L);
             client.increaseBalance(user,500L);
-            // client.decreaseBalance(user,200L);
-            //client.getBalance(user);
-            //client.setBalance(user,-2000L);
-            //client.getBalance(user);
+             client.decreaseBalance(user,200L);
+            client.getBalance(user);
+            client.setBalance(user,-2000L);
+            client.getBalance(user);
 
         } finally {
             client.shutdown();

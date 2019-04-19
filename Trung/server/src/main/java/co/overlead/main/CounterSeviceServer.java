@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CounterSeviceServer {
-    private static final Logger logger = LogManager.getLogger(CounterSeviceServer.class.getName());
+    //private static final Logger logger = LogManager.getLogger(CounterSeviceServer.class.getName());
     private static HashMap<String,Long> cacheBalance=new HashMap<>();
     private static QueueReq queueReq=new QueueReq();
     public static HashMap getCacheBalance(){
@@ -25,20 +25,20 @@ public class CounterSeviceServer {
     private void start() throws IOException {
         /* The port on which the server should run */
 
-        logger.trace("tracing... ...");
-        logger.debug("debuging ... ...");
-
-        logger.info("info ... ... ");
-        logger.warn("warning .... ... ");
-        logger.error("error ... ... ");
-        logger.fatal("fatal ... ...");
+//        logger.trace("tracing... ...");
+//        logger.debug("debuging ... ...");
+//
+//        logger.info("info ... ... ");
+//        logger.warn("warning .... ... ");
+//        logger.error("error ... ... ");
+//        logger.fatal("fatal ... ...");
 
         int port = 9090;
         server = ServerBuilder.forPort(port)
                 .addService(new CounterServiceImpl())
                 .build()
                 .start();
-        logger.info("Server started, listening on " + port);
+       // logger.info("Server started, listening on " + port);
 
         /* Add hook when stop application*/
         Runtime.getRuntime().addShutdownHook(new Thread() {
