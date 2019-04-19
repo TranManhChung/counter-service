@@ -21,30 +21,37 @@ class SendThread implements Runnable {
     public void makeCache(QueueReq.RequestType req,Long newValue){
         req.getRes().onNext(Counterservice.BalanceRes.newBuilder().setBalance(newValue).build());
         req.getRes().onCompleted();
-        if (CounterSeviceServer.getCacheBalance().containsKey(name)){
-            CounterSeviceServer.getCacheBalance().replace(name,newValue);
-        }else CounterSeviceServer.getCacheBalance().put(name,newValue);
+        if (CounterSeviceServer.getCacheBalance().containsKey(req.getKey())){
+            CounterSeviceServer.getCacheBalance().replace(req.getKey(),newValue);
+        }else CounterSeviceServer.getCacheBalance().put(req.getKey(),newValue);
 
-        IRedis.USER_SYNC_COMMAND.set(name,newValue.toString());//update redis
+        IRedis.USER_SYNC_COMMAND.set(req.getKey(),newValue.toString());//update redis
     }
 
     @Override
     public void run() {
         while(true){
             if( queue.isEmpty()){
-                    continue;
+                //System.out.println(name+"waiting");
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                continue;
             }
+            //System.out.println(name+"processing");
             QueueReq.RequestType req=queue.remove();
             if (req==null) continue;
             switch (req.getType()){
                 case "GET":
 
-                    if (getCacheBalance().containsKey(name)){//exist in cache
-                        req.getRes().onNext(Counterservice.BalanceRes.newBuilder().setBalance(Long.parseLong(getCacheBalance().get(name).toString())).build());
+                    if (getCacheBalance().containsKey(req.getKey())){//exist in cache
+                        req.getRes().onNext(Counterservice.BalanceRes.newBuilder().setBalance(Long.parseLong(getCacheBalance().get(req.getKey()).toString())).build());
                         req.getRes().onCompleted();
 
                     } else {//not exist in cache
-                        Object value=IRedis.USER_SYNC_COMMAND.get(name); //get from db
+                        Object value=IRedis.USER_SYNC_COMMAND.get(req.getKey()); //get from db
                         if (value == null) {//NOT EXIST USERID
                             makeCache(req,req.getValue());
                         } else {
@@ -57,12 +64,12 @@ class SendThread implements Runnable {
                     makeCache(req,req.getValue());
                     break;
                 case "INCR":
-                    if (getCacheBalance().containsKey(name)){//in cache
-                        Long value=Long.parseLong(getCacheBalance().get(name).toString())+req.getValue();//DANGER
+                    if (getCacheBalance().containsKey(req.getKey())){//in cache
+                        Long value=Long.parseLong(getCacheBalance().get(req.getKey()).toString())+req.getValue();//DANGER
                         makeCache(req,value);
 
                     } else {
-                        Object value=IRedis.USER_SYNC_COMMAND.get(name);
+                        Object value=IRedis.USER_SYNC_COMMAND.get(req.getKey());
                         if ( value== null) {
                             makeCache(req,req.getValue());
                         } else {
@@ -73,12 +80,12 @@ class SendThread implements Runnable {
                     break;
                 case "DECR":
 
-                    if (getCacheBalance().containsKey(name)){
-                        Long value=Long.parseLong(getCacheBalance().get(name).toString())- req.getValue();
+                    if (getCacheBalance().containsKey(req.getKey())){
+                        Long value=Long.parseLong(getCacheBalance().get(req.getKey()).toString())- req.getValue();
                         makeCache(req,req.getValue());
 
                     } else{
-                        Object value=IRedis.USER_SYNC_COMMAND.get(name);
+                        Object value=IRedis.USER_SYNC_COMMAND.get(req.getKey());
                         if (value==null){
                             makeCache(req,-req.getValue());
 
