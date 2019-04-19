@@ -28,13 +28,18 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
     private final static ReadWriteLock lock = new ReentrantReadWriteLock();
     private final Lock writeLock = lock.writeLock();//chỉ cho 1 tiến trình viết tại một thời điểm
     private static Map<Long, Long> temp = new HashMap<>();//lưu dữ liệu trên bộ nhớ
-    final private static ExecutorService service = Executors.newSingleThreadExecutor();//tạo mới một thread
+
+    final private static ExecutorService increseThread = Executors.newSingleThreadExecutor();//tạo mới một thread
+    final private static ExecutorService descreseThread = Executors.newSingleThreadExecutor();//tạo mới một thread
+    final private static ExecutorService setThread = Executors.newSingleThreadExecutor();//tạo mới một thread
 
     @Override
     public void setBalance(CounterServiceOuterClass.UserReq request,
                            StreamObserver<CounterServiceOuterClass.BalanceRes> responseObserver) {
-        balanceRepository.save(new Balance(request.getUserId(), request.getBalance()));
         generateResponse(request.getBalance(), responseObserver);
+        setThread.execute(()->{
+            balanceRepository.save(new Balance(request.getUserId(), request.getBalance()));
+        });
     }
 
     @Override
@@ -59,17 +64,6 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
     public void increaseBalance(CounterServiceOuterClass.UserReq request,
                                 StreamObserver<CounterServiceOuterClass.BalanceRes> responseObserver) {
         isDecreaseBalance(request, responseObserver, false);
-    }
-
-    public void saveData(Balance balance) {
-        service.execute(() -> {//tạo mới thread để ghi xuống db
-            try {
-                writeLock.lock();//chỉ cho một thread ghi tại một thời điểm
-                balanceRepository.save(balance);
-            } finally {
-                writeLock.unlock();
-            }
-        });
     }
 
     @Override
@@ -97,11 +91,33 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
                 temp.put(request.getUserId(), responseMess);
             }
 
-            saveData(new Balance(request.getUserId(), responseMess));
+            saveData(new Balance(request.getUserId(), responseMess), type);
             semaphore.release();
             generateResponse(responseMess, responseObserver);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void saveData(Balance balance, boolean type) {
+        if(type == false) {
+            increseThread.execute(() -> {//tạo mới thread để ghi xuống db
+                try {
+                    writeLock.lock();//chỉ cho một thread ghi tại một thời điểm
+                    balanceRepository.save(balance);
+                } finally {
+                    writeLock.unlock();
+                }
+            });
+        }else{
+            descreseThread.execute(() -> {//tạo mới thread để ghi xuống db
+                try {
+                    writeLock.lock();//chỉ cho một thread ghi tại một thời điểm
+                    balanceRepository.save(balance);
+                } finally {
+                    writeLock.unlock();
+                }
+            });
         }
     }
 
