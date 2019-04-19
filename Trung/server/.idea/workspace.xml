@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5cc1363b-8614-47bb-bac9-cedf4f896390" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/co/overlead/main/Count.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/co/overlead/main/TestString.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/mylog1.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/mylog1.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/overlead/main/CounterClientServiceMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/overlead/main/CounterClientServiceMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/overlead/main/Count.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/overlead/main/Count.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/co/overlead/main/CounterSeviceServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/overlead/main/CounterSeviceServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/overlead/main/QueueReq.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/overlead/main/QueueReq.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/overlead/main/SendThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/overlead/main/SendThread.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -43,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/main/CounterSeviceServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+            <state relative-caret-position="307">
+              <caret line="80" column="11" lean-forward="true" selection-start-line="80" selection-start-column="11" selection-end-line="80" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -55,8 +48,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/main/QueueReq.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="150">
+              <caret line="19" column="48" lean-forward="true" selection-start-line="19" selection-start-column="48" selection-end-line="19" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#565#566#0" expanded="true" />
@@ -71,13 +64,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/main/Count.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1255">
-              <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
+            <state relative-caret-position="272">
+              <caret line="108" column="18" lean-forward="true" selection-start-line="108" selection-start-column="18" selection-end-line="108" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1210#1651#0" expanded="true" />
                 <element signature="e#1650#1651#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/io/lettuce/lettuce-core/5.1.6.RELEASE/lettuce-core-5.1.6.RELEASE.jar!/io/lettuce/core/codec/StringCodec.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="38" selection-start-line="38" selection-end-line="38" />
             </state>
           </provider>
         </entry>
@@ -103,8 +105,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/main/SendThread.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+            <state relative-caret-position="150">
+              <caret line="23" column="18" selection-start-line="20" selection-start-column="3" selection-end-line="28" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -113,15 +115,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/logs/mylog1.log">
-          <provider selected="true" editor-type-id="LogFileEditorProvider" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1695">
-              <caret line="113" column="34" selection-start-line="113" selection-start-column="34" selection-end-line="113" selection-end-column="34" />
+            <state relative-caret-position="336">
+              <caret line="94" column="17" lean-forward="true" selection-start-line="94" selection-start-column="17" selection-end-line="94" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -168,12 +165,14 @@
       <find>Creating</find>
       <find>increaseBalance</find>
       <find>executor</find>
-      <find>cacheBalance</find>
       <find>USER_SYNC_COMMAND</find>
       <find>System.out.println</find>
-      <find>name</find>
       <find>queueReq</find>
+      <find>cacheBalance</find>
+      <find>getCacheBalance</find>
       <find>addKey</find>
+      <find>name</find>
+      <find>CounterSeviceServer</find>
     </findStrings>
     <replaceStrings>
       <replace>Counter</replace>
@@ -229,8 +228,8 @@
         <option value="$PROJECT_DIR$/src/main/java/co/overlead/main/TestString.java" />
         <option value="$PROJECT_DIR$/src/main/java/co/overlead/main/SendThread.java" />
         <option value="$PROJECT_DIR$/src/main/java/co/overlead/main/CounterClientServiceMain.java" />
-        <option value="$PROJECT_DIR$/src/main/java/co/overlead/main/CounterSeviceServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/co/overlead/main/QueueReq.java" />
+        <option value="$PROJECT_DIR$/src/main/java/co/overlead/main/CounterSeviceServer.java" />
         <option value="$PROJECT_DIR$/src/main/java/co/overlead/main/Count.java" />
       </list>
     </option>
@@ -622,12 +621,12 @@
       <workItem from="1555494161771" duration="1091000" />
       <workItem from="1555571165106" duration="16256000" />
       <workItem from="1555593748879" duration="2274000" />
-      <workItem from="1555637874127" duration="4547000" />
+      <workItem from="1555637874127" duration="10039000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="108611000" />
+    <option name="totallyTimeSpent" value="114103000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -792,13 +791,6 @@
       <provider editor-type-id="text-editor" />
       <provider selected="true" editor-type-id="LogFileEditorProvider" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1695">
-          <caret line="113" column="34" selection-start-line="113" selection-start-column="34" selection-end-line="113" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/database/IRedis.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -823,16 +815,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/main/SendThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="17" column="16" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/main/CounterClientServiceMain.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1476">
@@ -845,8 +827,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/main/CounterSeviceServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+        <state relative-caret-position="307">
+          <caret line="80" column="11" lean-forward="true" selection-start-line="80" selection-start-column="11" selection-end-line="80" selection-end-column="11" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -855,8 +837,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/main/QueueReq.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="150">
+          <caret line="19" column="48" lean-forward="true" selection-start-line="19" selection-start-column="48" selection-end-line="19" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#565#566#0" expanded="true" />
@@ -867,10 +849,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/main/SendThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="23" column="18" selection-start-line="20" selection-start-column="3" selection-end-line="28" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/io/lettuce/lettuce-core/5.1.6.RELEASE/lettuce-core-5.1.6.RELEASE.jar!/io/lettuce/core/codec/StringCodec.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="94" column="17" lean-forward="true" selection-start-line="94" selection-start-column="17" selection-end-line="94" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/co/overlead/main/Count.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1255">
-          <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
+        <state relative-caret-position="272">
+          <caret line="108" column="18" lean-forward="true" selection-start-line="108" selection-start-column="18" selection-end-line="108" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1210#1651#0" expanded="true" />

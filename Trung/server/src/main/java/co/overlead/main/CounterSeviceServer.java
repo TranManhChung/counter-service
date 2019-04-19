@@ -88,6 +88,8 @@ public class CounterSeviceServer {
 
     static class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBase {
 
+
+
         @Override
         public void getBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
 

@@ -10,10 +10,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Count {
     //private static final Logger logger = LogManager.getLogger(Count.class.getName());
-
+    private static HashMap<String,Long> cacheBalance=new HashMap<>();
+    public static HashMap getCacheBalance(){
+        return cacheBalance;
+    }
     private Server server;
 
     private void start() throws IOException {
@@ -64,76 +68,76 @@ public class Count {
     }
 
     static class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBase {
+        public void makeSetCache(String userId,Long newValue){
+            Object obj=getCacheBalance().get(userId);
+            if (obj==null){
+                getCacheBalance().put(userId,newValue);
+            } else{
+                getCacheBalance().replace(userId,newValue);
+            }
+            IRedis.USER_SYNC_COMMAND.set(userId,newValue.toString());//update redis
 
+        }
+        public void makeIncrCache(String userId,Long newValue){
+            Object obj=getCacheBalance().get(userId);
+            if (obj==null){
+                getCacheBalance().put(userId,newValue);
+            } else{
+                getCacheBalance().replace(userId,newValue+Long.parseLong(obj.toString()));
+            }
+            IRedis.USER_SYNC_COMMAND.incrby(userId,newValue);//update redis
+
+        }
+        public void makeDecrCache(String userId,Long newValue){
+            Object obj=getCacheBalance().get(userId);
+            if (obj==null){
+                getCacheBalance().put(userId,newValue);
+            } else{
+                getCacheBalance().replace(userId,Long.parseLong(obj.toString())-newValue);
+            }
+            IRedis.USER_SYNC_COMMAND.decrby(userId,newValue);//update redis
+        }
 
         @Override
         public void getBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
             Counterservice.BalanceRes reply;
-            if (IRedis.USER_SYNC_COMMAND.get(req.getUserId())==null){//NOT EXIST USERID
+            Object obj=getCacheBalance().get(req.getUserId());
+            if(obj!=null){
+                reply= Counterservice.BalanceRes.newBuilder().setBalance(Long.parseLong(obj.toString())).build();
+                responseObserver.onNext(reply);
+                responseObserver.onCompleted();
+            }else{
                 reply= Counterservice.BalanceRes.newBuilder().setBalance(0).build();
-            } else{
-                Long value=Long.parseLong(IRedis.USER_SYNC_COMMAND.get(req.getUserId()).toString());
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(value).build();
-
+                responseObserver.onNext(reply);
+                responseObserver.onCompleted();
             }
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
-
         }
-
 
         @Override
         public void increaseBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-            Counterservice.BalanceRes reply;
-            if (IRedis.USER_SYNC_COMMAND.get(req.getUserId())==null){
-                Long value=req.getBalance();
-                IRedis.USER_SYNC_COMMAND.set(req.getUserId(),value.toString());
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
-            } else{
-                Long value= req.getBalance();
-                IRedis.USER_SYNC_COMMAND.incrby(req.getUserId(),value);
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(value).build();
-            }
+            Counterservice.BalanceRes reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
+            makeIncrCache(req.getUserId(),req.getBalance());
+
         }
 
         @Override
         public void decreaseBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-            Counterservice.BalanceRes reply;
-            if (IRedis.USER_SYNC_COMMAND.get(req.getUserId())==null){
-                Long value=-req.getBalance();
-                IRedis.USER_SYNC_COMMAND.set(req.getUserId(),value.toString());
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
-
-            } else{
-                Long value=req.getBalance();
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(value).build();
-                IRedis.USER_SYNC_COMMAND.decrby(req.getUserId(),value);
-
-            }
+            Counterservice.BalanceRes reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
+            makeDecrCache(req.getUserId(),req.getBalance());
+
         }
 
         @Override
         public void setBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-            Counterservice.BalanceRes reply;
-            if (IRedis.USER_SYNC_COMMAND.get(req.getUserId())==null){
-                Long val=req.getBalance();
-                IRedis.USER_SYNC_COMMAND.set(req.getUserId(),val.toString());
-
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
-
-
-            } else{
-                Long newVal=req.getBalance();
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(newVal).build();
-                IRedis.USER_SYNC_COMMAND.set(req.getUserId(),newVal.toString());
-            }
-
+            Counterservice.BalanceRes reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
+            makeSetCache(req.getUserId(),req.getBalance());
+
         }
     }
 }
