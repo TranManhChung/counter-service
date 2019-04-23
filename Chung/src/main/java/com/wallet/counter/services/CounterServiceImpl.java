@@ -77,13 +77,16 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
                                   StreamObserver<CounterServiceOuterClass.BalanceRes> responseObserver, boolean type) {
         try {
             semaphore.acquire();//chỉ cho một thread truy xuất vào biến temp tại một thời điểm
-            Long responseMess = request.getBalance();
+            Long responseMess, userId ;
+            responseMess = request.getBalance();
+            userId = request.getUserId();
+
             if (temp.get(request.getUserId()) != null) {
-                responseMess = type == true ? temp.get(request.getUserId()) - responseMess :
-                        temp.get(request.getUserId()) + responseMess;
-                temp.replace(request.getUserId(), responseMess);
+                responseMess = type == true ? temp.get(userId) - responseMess :
+                        temp.get(userId) + responseMess;
+                temp.replace(userId, responseMess);
             } else {
-                Optional<Balance> balance = balanceRepository.findById(request.getUserId());
+                Optional<Balance> balance = balanceRepository.findById(userId);
                 if (balance.isPresent()) {
                     responseMess = type == true ? balance.get().getBalanceValue() - responseMess :
                             balance.get().getBalanceValue() + responseMess;
@@ -91,7 +94,7 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
                 temp.put(request.getUserId(), responseMess);
             }
 
-            saveData(new Balance(request.getUserId(), responseMess), type);
+            saveData(new Balance(request.getUserId(), responseMess), type == true ? descreseThread : increseThread);
             semaphore.release();
             generateResponse(responseMess, responseObserver);
         } catch (InterruptedException e) {
@@ -99,26 +102,15 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
         }
     }
 
-    public void saveData(Balance balance, boolean type) {
-        if(type == false) {
-            increseThread.execute(() -> {//tạo mới thread để ghi xuống db
-                try {
-                    writeLock.lock();//chỉ cho một thread ghi tại một thời điểm
-                    balanceRepository.save(balance);
-                } finally {
-                    writeLock.unlock();
-                }
-            });
-        }else{
-            descreseThread.execute(() -> {//tạo mới thread để ghi xuống db
-                try {
-                    writeLock.lock();//chỉ cho một thread ghi tại một thời điểm
-                    balanceRepository.save(balance);
-                } finally {
-                    writeLock.unlock();
-                }
-            });
-        }
+    public void saveData(Balance balance, ExecutorService service) {
+        service.execute(() -> {
+            try {
+                writeLock.lock();
+                balanceRepository.save(balance);
+            } finally {
+                writeLock.unlock();
+            }
+        });
     }
 
     public void generateResponse(Long responseMess, StreamObserver<CounterServiceOuterClass.BalanceRes> responseObserver) {
