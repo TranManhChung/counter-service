@@ -100,6 +100,7 @@ public class CounterClientServiceMain {
         try {
             /* Access a service running on the local machine on port 50051 */
             String user = "firstuser";
+            String us="seconduser";
             if (args.length > 0) {
                 user = args[0]; /* Use the arg as the name to greet if provided */
             }
@@ -111,6 +112,14 @@ public class CounterClientServiceMain {
             client.getBalance(user);
             client.setBalance(user,-2000L);
             client.getBalance(user);
+
+            client.getBalance(us);
+            client.setBalance(us,100L);
+            client.increaseBalance(us,500L);
+            client.decreaseBalance(us,200L);
+            client.getBalance(us);
+            client.setBalance(us,-2000L);
+            client.getBalance(us);
 
         } finally {
             client.shutdown();

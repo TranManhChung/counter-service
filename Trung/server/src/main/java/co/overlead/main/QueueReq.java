@@ -23,12 +23,11 @@ public class QueueReq {
         Runnable worker1= new SendThread("list1",listReq.get("list1"));
         Runnable worker2= new SendThread("list2",listReq.get("list2"));
 
-        executor.execute(worker1);
-        executor.execute(worker2);
+        executor1.execute(worker1);
+        executor2.execute(worker2);
 
     }
     HashMap<String,Queue<RequestType>> listReq=new HashMap<>();
-    HashMap<String,Queue<RequestType>> listReq2=new HashMap<>();
 
     public boolean isExistKey(String userId){
         return listReq.containsKey(userId);
