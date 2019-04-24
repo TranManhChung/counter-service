@@ -16,10 +16,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CountSync {
-    private static final int NUMCACHE=1000;
+    private static final int NUMCACHE=1;
     private static HashMap<Integer, HashMap<String,Long>> cacheBalanceList=new HashMap<>();
     private static HashMap<Integer,ExecutorService> executorList=new HashMap<>();
-    private static float aaa=1;
+
     public static int getIndex(String id){
         int index=id.hashCode()%NUMCACHE;
         if (index<0) return -index;
@@ -117,6 +117,13 @@ public class CountSync {
             IRedis.USER_SYNC_COMMAND.decrby(userId,newValue);//update redis
         }
 
+        public void makeGetCache(Long balance,StreamObserver<Counterservice.BalanceRes> responseObserver){
+
+            responseObserver.onNext(Counterservice.BalanceRes.newBuilder().setBalance(balance).build());
+            responseObserver.onCompleted();
+
+
+        }
         @Override
         public void getBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
             int index= getIndex(req.getUserId());
@@ -124,9 +131,11 @@ public class CountSync {
             Object obj=cacheBalanceList.get(index).get(req.getUserId());
 
             if(obj!=null){
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(Long.parseLong(obj.toString())).build();
-                responseObserver.onNext(reply);
-                responseObserver.onCompleted();
+                executorList.get(getIndex(req.getUserId())).execute(()->{
+                    makeGetCache(Long.parseLong(obj.toString()),responseObserver);
+                });
+
+
             }else{
                 reply= Counterservice.BalanceRes.newBuilder().setBalance(0).build();
                 responseObserver.onNext(reply);
