@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c45da99c-8a96-4dba-9d97-06d856a0243c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/anvh-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/DataAccess/AccountDAO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/Entity/Account.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/Entity/Manager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/Entity/SessionUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/META-INF/persistence.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceGrpc$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceGrpc$CounterServiceBaseDescriptorSupplier.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceGrpc$CounterServiceBlockingStub.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceGrpc$CounterServiceFileDescriptorSupplier.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceGrpc$CounterServiceFutureStub.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceGrpc$CounterServiceImplBase.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceGrpc$CounterServiceMethodDescriptorSupplier.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceGrpc$CounterServiceStub.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceGrpc$MethodHandlers.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceGrpc.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceOuterClass$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceOuterClass$BalanceRes$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceOuterClass$BalanceRes$Builder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceOuterClass$BalanceRes.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceOuterClass$BalanceResOrBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceOuterClass$UserReq$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceOuterClass$UserReq$Builder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceOuterClass$UserReq.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceOuterClass$UserReqOrBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/com/example/grpc/CounterServiceOuterClass.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/hibernate.cfg.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/server/CounterServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/classes/server/GrpcServer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/generated-sources/protobuf/grpc-java/com/example/grpc/CounterServiceGrpc.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/generated-sources/protobuf/java/com/example/grpc/CounterServiceOuterClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/any.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/api.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/compiler/plugin.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/descriptor.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/duration.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/empty.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/field_mask.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/source_context.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/struct.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/timestamp.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/type.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/4a32bb74d77f3602d47a3ee4e4e1735a/google/protobuf/wrappers.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/annotations.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/auth.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/backend.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/billing.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/config_change.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/consumer.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/context.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/control.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/distribution.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/documentation.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/endpoint.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/experimental/authorization_config.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/experimental/experimental.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/http.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/httpbody.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/label.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/log.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/logging.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/metric.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/monitored_resource.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/monitoring.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/quota.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/service.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/source_info.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/system_parameter.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/api/usage.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/cloud/audit/audit_log.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/logging/type/http_request.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/logging/type/log_severity.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/longrunning/operations.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/rpc/code.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/rpc/error_details.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/rpc/status.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/type/color.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/type/date.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/type/dayofweek.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/type/latlng.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/type/money.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/type/postal_address.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-dependencies/c76230c45791e2a3f98a956214719a8c/google/type/timeofday.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-plugins/protoc-3.7.1-linux-x86_64.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../CounterService1.0/target/protoc-plugins/protoc-gen-grpc-java-1.20.0-linux-x86_64.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CounterService/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../CounterService/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CounterService1.0/.idea/_name" beforeDir="false" afterPath="$PROJECT_DIR$/../CounterService1.0/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CounterService1.0/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../CounterService1.0/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CounterService1.0/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../CounterService1.0/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CounterService1.0/src/main/java/DataAccess/AccountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CounterService1.0/src/main/java/DataAccess/AccountDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CounterService1.0/src/main/java/Entity/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CounterService1.0/src/main/java/Entity/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/_name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DataAccess/AccountDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DataAccess/AccountDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Entity/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Entity/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/CounterServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/CounterServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="testRunner" value="GRADLE" />
+    <option name="delegatedBuild" value="true" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/server/CounterServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="27" column="23" selection-start-line="27" selection-start-column="23" selection-end-line="27" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/DataAccess/AccountDAO.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="92" column="44" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Entity/Account.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="13" column="27" lean-forward="true" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/server/GrpcServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="49" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/server/CounterServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Entity/Account.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/DataAccess/AccountDAO.java" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="630" />
+    <option name="y" value="24" />
+    <option name="width" value="1290" />
+    <option name="height" value="973" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="counter-service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CounterService1.1" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="counter-service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CounterService1.1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="counter-service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CounterService1.1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="counter-service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CounterService1.1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="counter-service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CounterService1.1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="DataAccess" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="counter-service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CounterService1.1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="counter-service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CounterService1.1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="counter-service" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CounterService1.1" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Github/CounterService" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="GrpcServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.GrpcServer" />
+      <module name="counter-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.GrpcServer" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c45da99c-8a96-4dba-9d97-06d856a0243c" name="Default Changelist" comment="" />
+      <created>1556156791173</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1556156791173</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="-4" width="1920" height="1029" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="UI Designer" />
+      <window_info id="Capture Tool" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2497332" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" weight="0.32937366" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.37796977" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39956802" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Maven" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/Entity/Account.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="13" column="27" lean-forward="true" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/server/CounterServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="27" column="23" selection-start-line="27" selection-start-column="23" selection-end-line="27" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/hibernate/javax/persistence/hibernate-jpa-2.1-api/1.0.0.Final/hibernate-jpa-2.1-api-1.0.0.Final.jar!/javax/persistence/EntityManager.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="22" column="10" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="49" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/server/GrpcServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/DataAccess/AccountDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="92" column="44" selection-start-line="92" selection-start-column="44" selection-end-line="92" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

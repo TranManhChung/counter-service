@@ -1,11 +1,16 @@
 package Entity;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "account")
-public class Account {
+public class Account implements Serializable {
     @Id
+//    @Fetch(FetchMode.SELECT)
     private String user_id;
 
     @Column

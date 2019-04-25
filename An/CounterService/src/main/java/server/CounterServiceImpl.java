@@ -18,12 +18,10 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
         long balance = request.getBalance();
 
         //set balance from db
-        accountDA.setBalance(userId, balance);
+        long balanceres = accountDA.setBalance(userId, balance);
 
         //response balance to client
-        long result = 0;
-        result = accountDA.getBalance(userId, balance);
-        responseClient(result, responseObserver);
+        responseClient(balanceres, responseObserver);
     }
 
     @Override
@@ -33,8 +31,7 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
         long balance = request.getBalance();
 
         //get balance from db
-        long balanceres = 0;
-        balanceres = accountDA.getBalance(userId, balance);
+        long balanceres = accountDA.getBalance(userId, balance);
 
         //response balance to client
         responseClient(balanceres, responseObserver);
@@ -47,12 +44,10 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
         long amount = request.getBalance();
 
         //decrease balance from db
-        accountDA.decreaseBalance(userId, amount);
+        long balanceres = accountDA.decreaseBalance(userId, amount);
 
         //response balance to client
-        long result = 0;
-        result = accountDA.getBalance(userId, amount);
-        responseClient(result, responseObserver);
+        responseClient(balanceres, responseObserver);
     }
 
     @Override
@@ -62,12 +57,10 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
         long amount = request.getBalance();
 
         //decrease balance from db
-        accountDA.increaseBalance(userId, amount);
+        long balanceres = accountDA.increaseBalance(userId, amount);
 
         //response balance to client
-        long result = 0;
-        result = accountDA.getBalance(userId, amount);
-        responseClient(result, responseObserver);
+        responseClient(balanceres, responseObserver);
     }
 
     private void responseClient(long balance, StreamObserver<CounterServiceOuterClass.BalanceRes> responseObserver) {
