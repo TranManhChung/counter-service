@@ -6,39 +6,23 @@ import com.example.grpc.Counterservice;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class CountSync {
-    private static final int NUMCACHE=1;
-    private static HashMap<Integer, HashMap<String,Long>> cacheBalanceList=new HashMap<>();
-    private static HashMap<Integer,ExecutorService> executorList=new HashMap<>();
-
-    public static int getIndex(String id){
-        int index=id.hashCode()%NUMCACHE;
-        if (index<0) return -index;
-        else return index;
-    }
-
     private Server server;
+
+    private static final MyCache countCache = new MyCache("countsync", 100);
 
     private void start() throws IOException {
         /* The port on which the server should run */
-
-
         int port = 9090;
         server = ServerBuilder.forPort(port)
                 .addService(new CounterServiceImpl())
                 .build()
                 .start();
-        // logger.info("Server started, listening on " + port);
 
+        // logger.info("Server started, listening on " + port);
         /* Add hook when stop application*/
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
@@ -71,117 +55,101 @@ public class CountSync {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         final CountSync server = new CountSync();
-        for (int i=0;i<NUMCACHE;i++){
-            cacheBalanceList.put(i,new HashMap<String, Long>());
-            executorList.put(i,Executors.newSingleThreadExecutor());
-        }
         server.start();
-
         server.blockUntilShutdown(); //prevent application shutdown
     }
 
     static class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBase {
-        public void makeSetCache(String userId,Long newValue){
 
-            int index= getIndex(userId);
-            Object obj=cacheBalanceList.get(index).get(userId);
-            if (obj==null){
-                cacheBalanceList.get(index).put(userId,newValue);
-            } else{
-                cacheBalanceList.get(index).replace(userId,newValue);
-            }
-            IRedis.USER_SYNC_COMMAND.set(userId,newValue.toString());//update redis
-
-
-        }
-        public void makeIncrCache(String userId,Long newValue){
-            int index= getIndex(userId);
-
-            Object obj = cacheBalanceList.get(index).get(userId);
-            if (obj==null){
-                cacheBalanceList.get(index).put(userId,newValue);
-            } else{
-                cacheBalanceList.get(index).replace(userId,newValue+Long.parseLong(obj.toString()));
-            }
-            IRedis.USER_SYNC_COMMAND.incrby(userId,newValue);//update redis
-        }
-        public void makeDecrCache(String userId,Long newValue){
-            int index= getIndex(userId);
-
-            Object obj=cacheBalanceList.get(index).get(userId);
-            if (obj==null){
-                cacheBalanceList.get(index).put(userId,newValue);
-            } else{
-                cacheBalanceList.get(index).replace(userId,Long.parseLong(obj.toString())-newValue);
-            }
-            IRedis.USER_SYNC_COMMAND.decrby(userId,newValue);//update redis
-        }
-
-        public void makeGetCache(Long balance,StreamObserver<Counterservice.BalanceRes> responseObserver){
-
-            responseObserver.onNext(Counterservice.BalanceRes.newBuilder().setBalance(balance).build());
-            responseObserver.onCompleted();
-
-
-        }
         @Override
-        public void getBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
-            int index= getIndex(req.getUserId());
-            Counterservice.BalanceRes reply;
-            Object obj=cacheBalanceList.get(index).get(req.getUserId());
+        public void getBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver) {
+            String userId = req.getUserId();
+            int index = countCache.getIndex(userId);
 
-            if(obj!=null){
-                executorList.get(getIndex(req.getUserId())).execute(()->{
-                    makeGetCache(Long.parseLong(obj.toString()),responseObserver);
-                });
-
-
-            }else{
-                reply= Counterservice.BalanceRes.newBuilder().setBalance(0).build();
-                responseObserver.onNext(reply);
-                responseObserver.onCompleted();
-            }
+            //cache
+            countCache.getExecutorList().get(index).execute(()->{
+                Object obj = countCache.getCache().get(userId);
+                if (obj != null) {
+                    responseObserver.onNext(Counterservice.BalanceRes.newBuilder().setBalance(Long.parseLong(obj.toString())).build());
+                    responseObserver.onCompleted();
+                } else {
+                    responseObserver.onNext(Counterservice.BalanceRes.newBuilder().setBalance(0).build());
+                    responseObserver.onCompleted();
+                }
+            });
         }
 
         @Override
-        public void increaseBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
+        public void increaseBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver) {
+            String userId = req.getUserId();
+            Long newValue = req.getBalance();
+            int index = countCache.getIndex(userId);
 
-
-            executorList.get(getIndex(req.getUserId())).execute(()->{
-                makeIncrCache(req.getUserId(),req.getBalance());
+            //cache
+            countCache.getExecutorList().get(index).execute(()->{
+                Object obj = countCache.getCache().get(userId);
+                if (obj == null) {
+                    countCache.getCache().put(userId, newValue);
+                } else {
+                    countCache.getCache().replace(userId, Long.parseLong(obj.toString()) + newValue);
+                }
             });
 
-
-            Counterservice.BalanceRes reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
-            responseObserver.onNext(reply);
+            //response
+            responseObserver.onNext(Counterservice.BalanceRes.newBuilder().setBalance(newValue).build());
             responseObserver.onCompleted();
+
+            //add task to queue DB
+            countCache.getExecutorDB().execute(() -> {
+                IRedis.incrSyncUserBalance(userId, newValue);
+            });
         }
 
         @Override
-        public void decreaseBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
+        public void decreaseBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver) {
+            String userId = req.getUserId();
+            Long newValue = req.getBalance();
+            int index = countCache.getIndex(userId);
 
-
-            executorList.get(getIndex(req.getUserId())).execute(()->{
-                makeDecrCache(req.getUserId(),req.getBalance());
+            //cache
+            countCache.getExecutorList().get(index).execute(()->{
+                Object obj = countCache.getCache().get(userId);
+                if (obj == null) {
+                    countCache.getCache().put(userId, newValue);
+                } else {
+                    countCache.getCache().replace(userId, Long.parseLong(obj.toString()) - newValue);
+                }
             });
 
-            Counterservice.BalanceRes reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
-            responseObserver.onNext(reply);
+            //response
+            responseObserver.onNext(Counterservice.BalanceRes.newBuilder().setBalance(newValue).build());
             responseObserver.onCompleted();
+
+            //add task to queue
+            countCache.getExecutorDB().execute(() -> {
+                IRedis.decrSyncUserBalance(userId, newValue);
+            });
         }
 
         @Override
-        public void setBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver){
+        public void setBalance(Counterservice.UserReq req, StreamObserver<Counterservice.BalanceRes> responseObserver) {
+            String userId = req.getUserId();
+            Long newValue = req.getBalance();
+            int index = countCache.getIndex(userId);
 
-            executorList.get(getIndex(req.getUserId())).execute(()->{
-                makeSetCache(req.getUserId(),req.getBalance());
+            //cache
+            countCache.getExecutorList().get(index).execute(()->{
+                countCache.getCache().put(userId, newValue);
             });
 
-
-            Counterservice.BalanceRes reply= Counterservice.BalanceRes.newBuilder().setBalance(req.getBalance()).build();
-            responseObserver.onNext(reply);
+            //response
+            responseObserver.onNext(Counterservice.BalanceRes.newBuilder().setBalance(newValue).build());
             responseObserver.onCompleted();
 
+            //add task to queue
+            countCache.getExecutorDB().execute(() -> {
+                IRedis.setSyncUserBalance(userId, newValue);
+            });
         }
     }
 }
