@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -24,21 +25,23 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
     @Autowired
     BalanceRepository balanceRepository;
 
-    private static Semaphore semaphore = new Semaphore(1);//mutex
     private final static ReadWriteLock lock = new ReentrantReadWriteLock();
     private final Lock writeLock = lock.writeLock();//chỉ cho 1 tiến trình viết tại một thời điểm
-    private static Map<Long, Long> temp = new HashMap<>();//lưu dữ liệu trên bộ nhớ
+    private static Map<String, Long> temp = new HashMap<>();//lưu dữ liệu trên bộ nhớ
 
-    final private static ExecutorService increseThread = Executors.newSingleThreadExecutor();//tạo mới một thread
-    final private static ExecutorService descreseThread = Executors.newSingleThreadExecutor();//tạo mới một thread
-    final private static ExecutorService setThread = Executors.newSingleThreadExecutor();//tạo mới một thread
+    final private static ExecutorService childThread = Executors.newSingleThreadExecutor();//tạo mới một thread
 
     @Override
     public void setBalance(CounterServiceOuterClass.UserReq request,
                            StreamObserver<CounterServiceOuterClass.BalanceRes> responseObserver) {
         generateResponse(request.getBalance(), responseObserver);
-        setThread.execute(()->{
-            balanceRepository.save(new Balance(request.getUserId(), request.getBalance()));
+        childThread.execute(()->{
+            try{
+                writeLock.lock();
+                balanceRepository.save(new Balance(request.getUserId(), request.getBalance()));
+            }finally {
+                writeLock.unlock();
+            }
         });
     }
 
@@ -54,7 +57,7 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
                 responseMess = balance.get().getBalanceValue();
                 temp.put(request.getUserId(), responseMess);
             } else {
-                responseMess = -1L;
+                responseMess = request.getBalance();
             }
         }
         generateResponse(responseMess, responseObserver);
@@ -75,38 +78,22 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
 
     public void isDecreaseBalance(CounterServiceOuterClass.UserReq request,
                                   StreamObserver<CounterServiceOuterClass.BalanceRes> responseObserver, boolean type) {
-        try {
-            semaphore.acquire();//chỉ cho một thread truy xuất vào biến temp tại một thời điểm
-            Long responseMess, userId ;
-            responseMess = request.getBalance();
-            userId = request.getUserId();
-
-            if (temp.get(request.getUserId()) != null) {
-                responseMess = type == true ? temp.get(userId) - responseMess :
-                        temp.get(userId) + responseMess;
-                temp.replace(userId, responseMess);
-            } else {
-                Optional<Balance> balance = balanceRepository.findById(userId);
-                if (balance.isPresent()) {
-                    responseMess = type == true ? balance.get().getBalanceValue() - responseMess :
-                            balance.get().getBalanceValue() + responseMess;
-                }
-                temp.put(request.getUserId(), responseMess);
-            }
-
-            saveData(new Balance(request.getUserId(), responseMess), type == true ? descreseThread : increseThread);
-            semaphore.release();
-            generateResponse(responseMess, responseObserver);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void saveData(Balance balance, ExecutorService service) {
-        service.execute(() -> {
+        generateResponse(request.getBalance(), responseObserver);
+        childThread.execute(() -> {
             try {
                 writeLock.lock();
-                balanceRepository.save(balance);
+                Long responseMess = request.getBalance();
+                String userId = request.getUserId();
+                Optional<Balance> balance = balanceRepository.findById(userId);
+                if (balance.isPresent()) {
+                    if(type == true){
+                        responseMess = balance.get().getBalanceValue() - responseMess;
+                    }else {
+                        responseMess = balance.get().getBalanceValue() + responseMess;
+                    }
+                }
+                temp.put(request.getUserId(), responseMess);
+                balanceRepository.save(new Balance(request.getUserId(), responseMess));
             } finally {
                 writeLock.unlock();
             }

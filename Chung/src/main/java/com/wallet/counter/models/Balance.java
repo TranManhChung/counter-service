@@ -17,7 +17,7 @@ public class Balance {
 
     @Id
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     @Column(name = "balance_value")
     private Long balanceValue;
