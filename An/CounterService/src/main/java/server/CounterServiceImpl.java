@@ -1,15 +1,12 @@
 package server;
 
-
-import DataAccess.AccountDAO;
+import EntityService.AccountService;
 import com.example.grpc.CounterServiceGrpc;
 import com.example.grpc.CounterServiceOuterClass;
 import io.grpc.stub.StreamObserver;
 
-import java.util.concurrent.ExecutionException;
-
 public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBase {
-    private static AccountDAO accountDA = new AccountDAO();
+    private static AccountService service= new AccountService();
 
     @Override
     public void setBalance(CounterServiceOuterClass.UserReq request, StreamObserver<CounterServiceOuterClass.BalanceRes> responseObserver) {
@@ -18,7 +15,7 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
         long balance = request.getBalance();
 
         //set balance from db
-        long balanceres = accountDA.setBalance(userId, balance);
+        long balanceres = service.setBalance(userId, balance);
 
         //response balance to client
         responseClient(balanceres, responseObserver);
@@ -31,7 +28,7 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
         long balance = request.getBalance();
 
         //get balance from db
-        long balanceres = accountDA.getBalance(userId, balance);
+        long balanceres = service.getBalance(userId, balance);
 
         //response balance to client
         responseClient(balanceres, responseObserver);
@@ -44,7 +41,7 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
         long amount = request.getBalance();
 
         //decrease balance from db
-        long balanceres = accountDA.decreaseBalance(userId, amount);
+        long balanceres = service.decreaseBalance(userId, amount);
 
         //response balance to client
         responseClient(balanceres, responseObserver);
@@ -57,7 +54,7 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
         long amount = request.getBalance();
 
         //decrease balance from db
-        long balanceres = accountDA.increaseBalance(userId, amount);
+        long balanceres = service.increaseBalance(userId, amount);
 
         //response balance to client
         responseClient(balanceres, responseObserver);

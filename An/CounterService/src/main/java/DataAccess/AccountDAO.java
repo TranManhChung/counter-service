@@ -1,18 +1,13 @@
 package DataAccess;
 
 import Entity.Account;
+import Entity.SessionUtil;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -21,62 +16,10 @@ public class AccountDAO {
     private static SessionFactory factory = null;
     private final static ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private final static Lock writeLock = readWriteLock.writeLock();
-    private final static ExecutorService executor = Executors.newSingleThreadExecutor();
-    HashMap<String, Long> cached = new HashMap<>();
+    private HashMap<String, Long> cached = new HashMap<>();
 
     static {
-        Configuration configuration = new Configuration();
-        configuration.configure("hibernate.cfg.xml");
-        configuration.addAnnotatedClass(Account.class);
-        ServiceRegistry srvcReg = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties())
-                .build();
-        factory = configuration.buildSessionFactory(srvcReg);
-    }
-
-    public long setBalance(String userId, long balance) {
-        Account account = getAccount(userId);
-
-        //create new thread to save or update record into db
-        executor.execute(()->{
-            saveOrUpdate(account, userId, balance);
-        });
-
-        return balance;
-    }
-
-    public long getBalance(String userId, long balance) {
-        Account account = getAccount(userId);
-
-        executor.execute(()->{
-            saveOrUpdate(account, userId, balance);
-        });
-
-        return account == null ? balance : account.getBalance();
-    }
-
-    public long increaseBalance(String userId, long amount) {
-        Account account = getAccount(userId);
-
-        long balance = account == null ? amount : account.getBalance() + amount;
-
-        executor.execute(()->{
-            saveOrUpdate(account, userId, balance);
-        });
-
-        return balance;
-    }
-
-    public long decreaseBalance(String userId, long amount) {
-        Account account = getAccount(userId);
-
-        long balance = account == null ? amount : account.getBalance() - amount;
-
-        executor.execute(()->{
-            saveOrUpdate(account, userId, balance);
-        });
-
-        return balance;
+        factory = SessionUtil.getSessionFactory();
     }
 
     private Account getAccount(String userId){
@@ -87,10 +30,24 @@ public class AccountDAO {
         return account;
     }
 
-    private void saveOrUpdate(Account account, String userId, long balance){
-        //open session to find record in db
+    public Account getAccountFromCacheMemory(String userId){
+        long balance = -1;
+        try{
+            balance = cached.get(userId);
+        }catch (NullPointerException e){
+            //System.out.println(e.getMessage());
+        }
+
+        if (balance == -1){
+            return null;
+        }
+
+        return new Account(userId, balance);
+    }
+
+    public void saveOrUpdate(Account account, String userId, long balance){
         Account existAccount = null;
-        //check lai xem da luu trong db chua
+        //check lai xem da luu trong db chua, vi nhieu thread co the gui toi de tao 1 account cung 1 id
         synchronized (this){
             existAccount = getAccount(userId);
         }
@@ -98,17 +55,16 @@ public class AccountDAO {
         if (existAccount != null){
             return;
         }
-
         //open session to begin transaction db
         Session session = factory.openSession();
         Transaction trans = session.beginTransaction();
 
         if (account == null){
             //if it null, create new record
-            synchronized (this){
-                account = new Account(userId, balance);
-            }
+            account = new Account(userId, balance);
 
+            //insert to cache
+            cached.put(userId, balance);
 
             System.out.println("---------NEW USER ID: " + account.getUserId());
 
@@ -120,19 +76,22 @@ public class AccountDAO {
                 writeLock.unlock();
             }
         }else if (balance > 0 && balance != account.getBalance()){
-            System.out.println("--------CHECK: " + account.getUserId());
+            System.out.println("--------UPDATE USER: " + account.getUserId());
             account.setBalance(balance);
+
+            //update to cache
+            cached.put(userId, balance);
 
             try {
                 writeLock.lock();
                 session.update(account);
-                //System.out.println("update is successfully");
             } finally {
                 writeLock.unlock();
             }
         }
 
         trans.commit();
+        session.clear();//clear all entity cached in session
         session.close();
     }
 }

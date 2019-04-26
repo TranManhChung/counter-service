@@ -19,8 +19,8 @@ public class SessionUtil {
         sessionFactory = configuration.buildSessionFactory(srvcReg);
     }
 
-    public static Session getSession(){
-        return sessionFactory.openSession();
+    public static SessionFactory getSessionFactory(){
+        return sessionFactory;
     }
     public static void closeSession(){
         sessionFactory.close();
