@@ -3,6 +3,7 @@ package DataAccess;
 import Entity.Account;
 import Entity.SessionUtil;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -17,6 +18,7 @@ public class AccountDAO {
     private final static ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private final static Lock writeLock = readWriteLock.writeLock();
     private HashMap<String, Long> cached = new HashMap<>();
+    private static final Logger logger = Logger.getLogger(AccountDAO.class);
 
     static {
         factory = SessionUtil.getSessionFactory();
@@ -66,17 +68,18 @@ public class AccountDAO {
             //insert to cache
             cached.put(userId, balance);
 
-            System.out.println("---------NEW USER ID: " + account.getUserId());
+            logger.info("---------NEW USER ID: " + account.getUserId());
 
             try {
                 writeLock.lock();
                 session.save(account);
-                //System.out.println("insert is successfully");
+            }catch (Exception e){
+                logger.info("---------INSERT ACCOUNT FAILED:", e);
             } finally {
                 writeLock.unlock();
             }
         }else if (balance > 0 && balance != account.getBalance()){
-            System.out.println("--------UPDATE USER: " + account.getUserId());
+            logger.info("--------UPDATE USER: " + account.getUserId());
             account.setBalance(balance);
 
             //update to cache
@@ -85,7 +88,9 @@ public class AccountDAO {
             try {
                 writeLock.lock();
                 session.update(account);
-            } finally {
+            } catch (Exception e) {
+                logger.info("---------UPDATE ACCOUNT FAILED:", e);
+            } finally{
                 writeLock.unlock();
             }
         }

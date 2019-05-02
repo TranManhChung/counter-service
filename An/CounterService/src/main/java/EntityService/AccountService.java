@@ -34,10 +34,10 @@ public class AccountService {
     public long increaseBalance(String userId, long amount) {
         Account account = accountDAO.getAccountFromCacheMemory(userId);
 
-        if (account == null){
-            System.out.println("---------CANT'N CREATE NEW ACCOUNT FROM INCREASE METHOD---------");
-
-        }
+//        if (account == null){
+//            System.out.println("---------CANT'N CREATE NEW ACCOUNT FROM INCREASE METHOD---------");
+//
+//        }
 
         long balance = account == null ? amount : account.getBalance() + amount;
 
@@ -51,10 +51,10 @@ public class AccountService {
     public long decreaseBalance(String userId, long amount) {
         Account account = accountDAO.getAccountFromCacheMemory(userId);
 
-        if (account == null){
-            System.out.println("---------CANT'N CREATE NEW ACCOUNT FROM DECREASE METHOD---------");
-
-        }
+//        if (account == null){
+//            System.out.println("---------CANT'N CREATE NEW ACCOUNT FROM DECREASE METHOD---------");
+//
+//        }
 
         long balance = account == null ? amount : account.getBalance() - amount;
 
