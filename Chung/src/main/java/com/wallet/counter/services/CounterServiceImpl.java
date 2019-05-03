@@ -26,21 +26,43 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
     BalanceRepository balanceRepository;
 
     private final static ReadWriteLock lock = new ReentrantReadWriteLock();
-    private final Lock writeLock = lock.writeLock();//chỉ cho 1 tiến trình viết tại một thời điểm
+    private final Lock writeLockDB = lock.writeLock();//chỉ cho 1 tiến trình viết tại một thời điểm
+    private final Lock writeLockCache = lock.writeLock();//chỉ cho 1 tiến trình viết tại một thời điểm
     private static Map<String, Long> temp = new HashMap<>();//lưu dữ liệu trên bộ nhớ
 
-    final private static ExecutorService childThread = Executors.newSingleThreadExecutor();//tạo mới một thread
+    final private static ExecutorService dbThread = Executors.newSingleThreadExecutor();//tạo mới một thread
+    private static ExecutorService cacheThread = Executors.newSingleThreadExecutor();
 
     @Override
     public void setBalance(CounterServiceOuterClass.UserReq request,
                            StreamObserver<CounterServiceOuterClass.BalanceRes> responseObserver) {
-        generateResponse(request.getBalance(), responseObserver);
-        childThread.execute(()->{
+
+        Long balance = request.getBalance();
+        String userId = request.getUserId();
+
+        generateResponse(balance, responseObserver);
+        addToDatabase(userId, balance);
+        addToCache(userId, balance);
+    }
+
+    public void addToCache(String id, Long balance) {
+        cacheThread.execute(() -> {
+            try {
+                writeLockCache.lock();
+                temp.put(id, balance);
+            } finally {
+                writeLockCache.unlock();
+            }
+        });
+    }
+
+    public void addToDatabase(String id, Long balance){
+        dbThread.execute(()->{
             try{
-                writeLock.lock();
-                balanceRepository.save(new Balance(request.getUserId(), request.getBalance()));
+                writeLockDB.lock();
+                balanceRepository.save(new Balance(id, balance));
             }finally {
-                writeLock.unlock();
+                writeLockDB.unlock();
             }
         });
     }
@@ -55,7 +77,7 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
             Optional<Balance> balance = balanceRepository.findById(request.getUserId());
             if (balance.isPresent()) {//nếu tồn tại đối tượng dứi db
                 responseMess = balance.get().getBalanceValue();
-                temp.put(request.getUserId(), responseMess);
+                addToCache(request.getUserId(), responseMess);
             } else {
                 responseMess = request.getBalance();
             }
@@ -79,9 +101,9 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
     public void isDecreaseBalance(CounterServiceOuterClass.UserReq request,
                                   StreamObserver<CounterServiceOuterClass.BalanceRes> responseObserver, boolean type) {
         generateResponse(request.getBalance(), responseObserver);
-        childThread.execute(() -> {
+        dbThread.execute(() -> {
             try {
-                writeLock.lock();
+                writeLockDB.lock();
                 Long responseMess = request.getBalance();
                 String userId = request.getUserId();
                 Optional<Balance> balance = balanceRepository.findById(userId);
@@ -92,10 +114,10 @@ public class CounterServiceImpl extends CounterServiceGrpc.CounterServiceImplBas
                         responseMess = balance.get().getBalanceValue() + responseMess;
                     }
                 }
-                temp.put(request.getUserId(), responseMess);
+                addToCache(userId, responseMess);
                 balanceRepository.save(new Balance(request.getUserId(), responseMess));
             } finally {
-                writeLock.unlock();
+                writeLockDB.unlock();
             }
         });
     }
